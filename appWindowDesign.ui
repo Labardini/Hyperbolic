@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>611</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>HG App</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frameMainButtons">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>0</y>
+      <width>901</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>901</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QToolButton" name="toolButtonHome">
+        <property name="text">
+         <string>Home</string>
+        </property>
+        <property name="autoRepeat">
+         <bool>false</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonCP">
+        <property name="text">
+         <string>Complex Plane</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonHP">
+        <property name="text">
+         <string>Hyperbolic Plane</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonTS">
+        <property name="text">
+         <string>Teichmüller Spaces</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonMS">
+        <property name="text">
+         <string>Moduli Spaces</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonArt">
+        <property name="text">
+         <string>Art</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidgetAllPages">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>49</y>
+      <width>901</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="pageWelcomeHome">
+     <widget class="QTextBrowser" name="textWelcome">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>130</y>
+        <width>511</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="palette">
+       <palette>
+        <active>
+         <colorrole role="Base">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Window">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>211</red>
+            <green>168</green>
+            <blue>236</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </active>
+        <inactive>
+         <colorrole role="Base">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Window">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>211</red>
+            <green>168</green>
+            <blue>236</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </inactive>
+        <disabled>
+         <colorrole role="Base">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>211</red>
+            <green>168</green>
+            <blue>236</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Window">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>211</red>
+            <green>168</green>
+            <blue>236</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </disabled>
+       </palette>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Welcome to HG APP!&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:24pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;This app is designed to help you visualize properties of the Hyperbolic Plane in its three models -the upper half plane, the Poincaré disc and the hyperboloid.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="acceptRichText">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pageCP">
+     <widget class="QTabWidget" name="tabsIn_pageCP">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>901</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabCPSteinerGrids">
+       <attribute name="title">
+        <string>Steiner grids</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tabCPMobiusTransformations">
+       <attribute name="title">
+        <string>Möbius transformations</string>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="MplWidget" name="mplWidgetIn_pageCP" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>621</width>
+        <height>491</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditCPSGComplexNumber1">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>50</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>a+bj</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonCPSGCommon">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>80</y>
+        <width>113</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Show!</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditCPSGComplexNumber2">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>50</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>c+dj</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pageHP">
+     <widget class="QTabWidget" name="tabsIn_pageHP">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>901</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="currentIndex">
+       <number>6</number>
+      </property>
+      <widget class="QWidget" name="tabUHP">
+       <attribute name="title">
+        <string>Upper half plane</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabUHP">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabUHPBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabUHP" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>621</width>
+          <height>491</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabPD">
+       <attribute name="title">
+        <string>Poincaré Disc</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabPD">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabPDBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabPD" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>621</width>
+          <height>491</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabHyper">
+       <attribute name="title">
+        <string>Hyperboloid</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabHyper">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabHyperBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabHyperGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabHyperCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabHyperIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabHyper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>621</width>
+          <height>491</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabUHPandPD">
+       <attribute name="title">
+        <string>UHP/PD</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabUHPandPD">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabUHPandPDBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandPDGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandPDCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandPDIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabUHPandPD_Upper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabUHPandPD_Poincare" native="true">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabUHPandHyper">
+       <attribute name="title">
+        <string>UHP/Hyperboloid</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabUHPandHyper">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabUHPandHyperBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandHyperGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandHyperCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabUHPandHyperIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabUHPandHyper_Upper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabUHPandHyper_Hyper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabPDandHyper">
+       <attribute name="title">
+        <string>PD/Hyperboloid</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabPDandHyper">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabPDandHyperBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDandHyperGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDandHyperCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabPDandHyperIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabPDandHyper_Poincare" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabPDandHyper_Hyper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>20</y>
+          <width>441</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabThreeModels">
+       <attribute name="title">
+        <string>All three models</string>
+       </attribute>
+       <widget class="QTabWidget" name="tabsIn_tabThreeModels">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>901</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabThreeModelsBasicConstructions">
+         <attribute name="title">
+          <string>Basic Constructions</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabThreeModelsGeodesicMotion">
+         <attribute name="title">
+          <string>Geodesic Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabThreeModelsCircularMotion">
+         <attribute name="title">
+          <string>Circular Motion</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tabThreeModelsIsometries">
+         <attribute name="title">
+          <string>Isometries</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabThreeModels_Upper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>291</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabThreeModels_Hyper" native="true">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>20</y>
+          <width>291</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="MplWidget" name="mplWidgetIn_tabThreeModels_Poincare" native="true">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>20</y>
+          <width>291</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pageTS"/>
+    <widget class="QWidget" name="pageMS"/>
+    <widget class="QWidget" name="pageArt"/>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MplWidget</class>
+   <extends>QWidget</extends>
+   <header>mplwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>toolButtonHome</tabstop>
+  <tabstop>toolButtonHP</tabstop>
+  <tabstop>toolButtonTS</tabstop>
+  <tabstop>toolButtonMS</tabstop>
+  <tabstop>toolButtonArt</tabstop>
+  <tabstop>tabsIn_pageHP</tabstop>
+  <tabstop>tabsIn_pageCP</tabstop>
+  <tabstop>tabsIn_tabUHP</tabstop>
+  <tabstop>tabsIn_tabPD</tabstop>
+  <tabstop>tabsIn_tabHyper</tabstop>
+  <tabstop>textWelcome</tabstop>
+  <tabstop>tabsIn_tabUHPandPD</tabstop>
+  <tabstop>tabsIn_tabUHPandHyper</tabstop>
+  <tabstop>tabsIn_tabPDandHyper</tabstop>
+  <tabstop>tabsIn_tabThreeModels</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
