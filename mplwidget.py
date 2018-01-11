@@ -30,7 +30,7 @@ class MplWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)   # Inherit from QWidget
         self.canvas = MplCanvas()                  # Create canvas object
-        self.mpl_toolbar = NavigationToolbar(self.canvas,parent)
+        self.mpl_toolbar = NavigationToolbar(self.canvas,parent) # Include toolbar --it appears at the bottom
         self.vbl = QtWidgets.QVBoxLayout()         # Set box for plotting
         self.vbl.addWidget(self.canvas)
         self.vbl.addWidget(self.mpl_toolbar)
