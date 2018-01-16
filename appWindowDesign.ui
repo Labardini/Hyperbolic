@@ -118,7 +118,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="pageWelcomeHome">
      <widget class="QTextBrowser" name="textWelcome">
@@ -231,7 +231,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabCPSteinerGrids">
        <attribute name="title">
@@ -254,46 +254,126 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditCPSGComplexNumber1">
+     <widget class="QStackedWidget" name="stackedWidgetIn_pageCP">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>50</y>
-        <width>71</width>
-        <height>21</height>
+        <x>620</x>
+        <y>20</y>
+        <width>281</width>
+        <height>491</height>
        </rect>
       </property>
-      <property name="text">
-       <string/>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="placeholderText">
-       <string>a+bj</string>
-      </property>
+      <widget class="QWidget" name="pageCPSteinerGrids">
+       <widget class="QPushButton" name="pushButtonCPSGCommon">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>171</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Common Circles</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spinBoxCPSGCommon">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>50</y>
+          <width>48</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="wrapping">
+         <bool>true</bool>
+        </property>
+        <property name="minimum">
+         <number>2</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+        <property name="displayIntegerBase">
+         <number>10</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditCPSGComplexNumber2">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>50</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>c+dj</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditCPSGComplexNumber1">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>71</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>a+bj</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButtonCPSGApollonius">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>171</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Apollonius Circles</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButtonCPSGSteiner">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>171</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Steiner Grid</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="pageCPMobiusTransformations"/>
      </widget>
-     <widget class="QPushButton" name="pushButtonCPSGCommon">
+     <widget class="QPushButton" name="pushButtonCPClearCanvas">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>80</y>
+        <x>250</x>
+        <y>510</y>
         <width>113</width>
         <height>32</height>
        </rect>
       </property>
       <property name="text">
-       <string>Show!</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEditCPSGComplexNumber2">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>50</y>
-        <width>71</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="placeholderText">
-       <string>c+dj</string>
+       <string>Clear Canvas</string>
       </property>
      </widget>
     </widget>
@@ -727,9 +807,9 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>toolButtonHome</tabstop>
-  <tabstop>toolButtonHP</tabstop>
-  <tabstop>toolButtonTS</tabstop>
+  <tabstop>lineEditCPSGComplexNumber1</tabstop>
+  <tabstop>lineEditCPSGComplexNumber2</tabstop>
+  <tabstop>spinBoxCPSGCommon</tabstop>
   <tabstop>toolButtonMS</tabstop>
   <tabstop>toolButtonArt</tabstop>
   <tabstop>tabsIn_pageHP</tabstop>
@@ -742,7 +822,31 @@ p, li { white-space: pre-wrap; }
   <tabstop>tabsIn_tabUHPandHyper</tabstop>
   <tabstop>tabsIn_tabPDandHyper</tabstop>
   <tabstop>tabsIn_tabThreeModels</tabstop>
+  <tabstop>toolButtonCP</tabstop>
+  <tabstop>toolButtonHome</tabstop>
+  <tabstop>pushButtonCPSGCommon</tabstop>
+  <tabstop>toolButtonHP</tabstop>
+  <tabstop>toolButtonTS</tabstop>
+  <tabstop>pushButtonCPSGApollonius</tabstop>
+  <tabstop>pushButtonCPSGSteiner</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tabsIn_pageCP</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>stackedWidgetIn_pageCP</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>759</x>
+     <y>336</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

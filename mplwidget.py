@@ -20,7 +20,7 @@ matplotlib.use('QT5Agg')
 class MplCanvas(Canvas):
     def __init__(self):
         self.fig = Figure()
-        self.ax = self.fig.add_subplot(111,aspect = "equal")
+        self.axis = self.fig.add_subplot(111,aspect = "equal")
         Canvas.__init__(self, self.fig)
         Canvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         Canvas.updateGeometry(self)
