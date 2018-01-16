@@ -76,17 +76,45 @@ class commonCircles:
     def common_circles(self,complexnumberP,complexnumberQ,n):
         theFunction = self.commonCirclesFunction(complexnumberP,complexnumberQ)
         points_on_mediatrix = self.pointsOnMediatrix(complexnumberP, complexnumberQ, n)
-        print(points_on_mediatrix)
         return theFunction(points_on_mediatrix)
-#        mylist =[]
-#        for R in points_on_mediatrix:
-#            mylist.append(theFunction(R))  
-#        return mylist
     
+    
+    
+class Apollonius:
+    
+    def __init__(self):
+        pass
+    
+    def centerAndRadiusApolloniusCircle(self,complexnumberP,complexnumberQ):
+        P = numpy.complex(complexnumberP)
+        Q = numpy.complex(complexnumberQ)
+        distance = numpy.absolute(P-Q)
+        def theFunction(k): # k is supposed to be an integer greater than 0 and smaller than an n to be given as an input below
+            x = (k*distance) / (1+k)
+            y = (k*distance) / (k-1)
+            X = P + (x/distance)*(Q-P)
+            Y = P + (y/distance)*(Q-P)
+            center = (X+Y)/2
+            radius = (k*distance) / (  numpy.absolute(1-k**2)  )
+            return [(numpy.real(center),numpy.imag(center)),radius]
+        vectorized = numpy.vectorize(theFunction)
+        return vectorized
+
+    
+    def Apollonius_e_circles1(self,complexnumberP,complexnumberQ,n):#(beta1,beta2,number):
+        theFunction = self.centerAndRadiusApolloniusCircle(complexnumberP,complexnumberQ)
+        numpyInterval = numpy.arange(1,n,1)
+        numpyFirstInterval = numpyInterval / n
+        return theFunction(numpyFirstInterval)
+    
+    def Apollonius_e_circles2(self,complexnumberP,complexnumberQ,n):#(beta1,beta2,number):
+        theFunction = self.centerAndRadiusApolloniusCircle(complexnumberP,complexnumberQ)
+        numpyInterval = numpy.arange(1,n,1)
+        numpySecondInterval = n / (n-numpyInterval)
+        return theFunction(numpySecondInterval)
+        
+        
 
         
         
-    
-    
-    
 
