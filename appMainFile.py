@@ -16,7 +16,7 @@ import numpy
 import appWindowDesign
 
 from Maths.CP_Maths import Steiner_grids_CP
-
+from Maths.CP_Maths import Mobius_CP
 
 
 
@@ -58,7 +58,7 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         self.pushButtonCPSGCommon.clicked.connect(self.effectOf_pushButtonCPSGCommon)
         self.pushButtonCPSGApollonius.clicked.connect(self.effectOf_pushButtonCPSGApollonius)
         self.pushButtonCPSGSteiner.clicked.connect(self.effectOf_pushButtonCPSGSteiner)
-
+        self.pushButtonCPMTOrbits_1.clicked.connect(self.effectOf_pushButtonCPMTOrbits_1)
 
 
 
@@ -108,10 +108,8 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         self.mplWidgetIn_pageCP.canvas.draw()
         
 
-    def effectOf_pushButtonCPSGCommon(self): #### should I move the bulk of operations to Steiner_grids_CP.py? --personal question
-        importing = Steiner_grids_CP.commonCircles()
-        functionForListingCentersAndRadiiOfCommonCircles = importing.common_circles ## remember that this is a function whose outputs are numpy arrays
-        centersAndRadii = functionForListingCentersAndRadiiOfCommonCircles(
+    def effectOf_pushButtonCPSGCommon(self): #### PERSONAL: should I move the bulk of operations to Steiner_grids_CP.py? 
+        centersAndRadii = Steiner_grids_CP.commonCircles().common_circles(
                 self.lineEditCPSGComplexNumber1.text(),
                 self.lineEditCPSGComplexNumber2.text(),
                 int(self.spinBoxCPSGCommon.cleanText()))
@@ -122,10 +120,8 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
             self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
         self.mplWidgetIn_pageCP.canvas.draw()
             
-    def effectOf_pushButtonCPSGApollonius(self):
-        importing = Steiner_grids_CP.Apollonius()
-        functionForListingCentersAndRadiiOfApolloniusCircles = importing.Apollonius_e_circles1 ## remember that this is a function whose outputs are numpy arrays
-        centersAndRadii = functionForListingCentersAndRadiiOfApolloniusCircles(
+    def effectOf_pushButtonCPSGApollonius(self): ## WARNING(?): THE EXACT SAME CODE APPEARS TWICE, EXCEPT FOR importing.Apollonius_e_circles1 AND importing.Apollonius_e_circles2
+        centersAndRadii = Steiner_grids_CP.Apollonius().Apollonius_e_circles1(
                 self.lineEditCPSGComplexNumber1.text(),
                 self.lineEditCPSGComplexNumber2.text(),
                 int(self.spinBoxCPSGCommon.cleanText()))
@@ -135,8 +131,7 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
             y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
             self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
         self.mplWidgetIn_pageCP.canvas.draw()
-        functionForListingCentersAndRadiiOfApolloniusCircles = importing.Apollonius_e_circles2 ## remember that this is a function whose outputs are numpy arrays
-        centersAndRadii = functionForListingCentersAndRadiiOfApolloniusCircles(
+        centersAndRadii = Steiner_grids_CP.Apollonius().Apollonius_e_circles2(
                 self.lineEditCPSGComplexNumber1.text(),
                 self.lineEditCPSGComplexNumber2.text(),
                 int(self.spinBoxCPSGCommon.cleanText()))
@@ -146,11 +141,31 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
             y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
             self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color="b")
         self.mplWidgetIn_pageCP.canvas.draw()
-        
-        
+                
     def effectOf_pushButtonCPSGSteiner(self):
         self.effectOf_pushButtonCPSGCommon()
         self.effectOf_pushButtonCPSGApollonius()
+        
+    def effectOf_pushButtonCPMTOrbits_1(self):
+        MobiusTrans = Mobius_CP.MobiusAssocToMatrix(
+                self.lineEditCPMTOrbitsComplexNumberalpha.text(),
+                self.lineEditCPMTOrbitsComplexNumberbeta.text(),
+                self.lineEditCPMTOrbitsComplexNumbergamma.text(),
+                self.lineEditCPMTOrbitsComplexNumberdelta.text())
+        z_0 = numpy.complex(self.lineEditCPMTOrbitsComplexNumberz_0.text())
+        numberOfPointsInOrbit = int(self.spinBoxCPMTOrbits.cleanText())
+        Orbit = MobiusTrans.Mob_trans_iterable(z_0,numberOfPointsInOrbit)
+        print(Orbit)
+        pointsForPlot = Steiner_grids_CP.coordsOfComplex().coords(Orbit)
+        for k in range(0,numberOfPointsInOrbit,1):
+            self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[k],(pointsForPlot[1])[k],'ob')
+        self.mplWidgetIn_pageCP.canvas.draw()
+            
+        
+        
+        
+        
+        
         
         
             
@@ -168,4 +183,10 @@ app = QtWidgets.QApplication(sys.argv)
 form = appMainWindow()
 form.show()
 app.exec_()
+
+#if __name__ == "__main__":            
+#    app = QtWidgets.QApplication(sys.argv)
+#    form = appMainWindow()
+#    form.show()
+#    app.exec_()
 
