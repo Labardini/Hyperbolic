@@ -7,10 +7,18 @@ Created on Mon Jul 17 17:07:25 2017
 """
 
 import numpy
-import sympy
-from sympy import I
 
 
+class coordsOfComplex:
+    
+    def __init__(self):
+        pass
+    
+        self.coords = numpy.vectorize(self.coordsFunction)
+    
+    def coordsFunction(self,complexnumber):
+        z = numpy.complex(complexnumber)
+        return (numpy.real(z),numpy.imag(z))
 
 
 class commonCircles:
@@ -18,40 +26,40 @@ class commonCircles:
     def __init__(self):
         pass
     
-    def e_circumcenter(self,complexnumberP,complexnumberQ,complexnumberR):
-        P = numpy.complex(complexnumberP) 
-        Q = numpy.complex(complexnumberQ)
-        R = numpy.complex(complexnumberR) 
-        realOfP = numpy.real(P)
-        imOfP = numpy.imag(P)
-        PointP = sympy.geometry.Point(realOfP,imOfP)
-        realOfQ = numpy.real(Q)
-        imOfQ = numpy.imag(Q)
-        PointQ = sympy.geometry.Point(realOfQ,imOfQ)
-        realOfR = numpy.real(R)
-        imOfR = numpy.imag(R)
-        PointR = sympy.geometry.Point(realOfR,imOfR)
-        circ = sympy.geometry.Circle(PointP,PointQ,PointR)
-        cent = circ.center
-        return (cent.x,cent.y)
-    
-
-    def e_circumradius(self,complexnumberP,complexnumberQ,complexnumberR):
-        P = numpy.complex(complexnumberP) 
-        Q = numpy.complex(complexnumberQ)
-        R = numpy.complex(complexnumberR) 
-        realOfP = numpy.real(P)
-        imOfP = numpy.imag(P)
-        PointP = sympy.geometry.Point(realOfP,imOfP)
-        realOfQ = numpy.real(Q)
-        imOfQ = numpy.imag(Q)
-        PointQ = sympy.geometry.Point(realOfQ,imOfQ)
-        realOfR = numpy.real(R)
-        imOfR = numpy.imag(R)
-        PointR = sympy.geometry.Point(realOfR,imOfR)
-        circ = sympy.geometry.Circle(PointP,PointQ,PointR)
-        rad = circ.hradius
-        return rad
+#    def e_circumcenter(self,complexnumberP,complexnumberQ,complexnumberR):
+#        P = numpy.complex(complexnumberP) 
+#        Q = numpy.complex(complexnumberQ)
+#        R = numpy.complex(complexnumberR) 
+#        realOfP = numpy.real(P)
+#        imOfP = numpy.imag(P)
+#        PointP = sympy.geometry.Point(realOfP,imOfP)
+#        realOfQ = numpy.real(Q)
+#        imOfQ = numpy.imag(Q)
+#        PointQ = sympy.geometry.Point(realOfQ,imOfQ)
+#        realOfR = numpy.real(R)
+#        imOfR = numpy.imag(R)
+#        PointR = sympy.geometry.Point(realOfR,imOfR)
+#        circ = sympy.geometry.Circle(PointP,PointQ,PointR)
+#        cent = circ.center
+#        return (cent.x,cent.y)
+#    
+#
+#    def e_circumradius(self,complexnumberP,complexnumberQ,complexnumberR):
+#        P = numpy.complex(complexnumberP) 
+#        Q = numpy.complex(complexnumberQ)
+#        R = numpy.complex(complexnumberR) 
+#        realOfP = numpy.real(P)
+#        imOfP = numpy.imag(P)
+#        PointP = sympy.geometry.Point(realOfP,imOfP)
+#        realOfQ = numpy.real(Q)
+#        imOfQ = numpy.imag(Q)
+#        PointQ = sympy.geometry.Point(realOfQ,imOfQ)
+#        realOfR = numpy.real(R)
+#        imOfR = numpy.imag(R)
+#        PointR = sympy.geometry.Point(realOfR,imOfR)
+#        circ = sympy.geometry.Circle(PointP,PointQ,PointR)
+#        rad = circ.hradius
+#        return rad
     
     
     def pointsOnMediatrix(self,complexnumberP, complexnumberQ, n):
@@ -62,14 +70,19 @@ class commonCircles:
         a = numpy.real(halfDifference)
         b = numpy.imag(halfDifference)
         orthogonal = numpy.complex(b + (-a)*(1j))
-        numpyLeftInterval = numpy.arange(-(n-1)/2,0,1)
-        numpyRightInterval = numpy.arange(1,1+(n-1)/2,1)
-        numpyInterval = numpy.union1d(numpyLeftInterval,numpyRightInterval)
+        numpyLeftInterval = numpy.arange(-n,0,1)#(-(n-1)/2,0,1)
+        numpyRightInterval = numpy.arange(1,1+n,1)#(1,1+(n-1)/2,1)
+        numpyInterval = numpy.linspace(-n,n,n)#numpy.union1d(numpyLeftInterval,numpyRightInterval)
         return midPoint + numpyInterval*orthogonal
      
     def commonCirclesFunction(self,complexnumberP,complexnumberQ):
+        P = numpy.complex(complexnumberP)
+        #Q = numpy.complex(complexnumberQ)
         def theFunction(complexnumberR):
-            return [self.e_circumcenter(complexnumberP,complexnumberQ,complexnumberR),self.e_circumradius(complexnumberP,complexnumberQ,complexnumberR)]
+            R = numpy.complex(complexnumberR)
+            center = (numpy.real(R),numpy.imag(R))
+            radius = numpy.absolute(R-P)
+            return [center,radius]
         vectorized = numpy.vectorize(theFunction)
         return vectorized
             
