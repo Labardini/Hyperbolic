@@ -9,16 +9,6 @@ Created on Mon Jul 17 17:07:25 2017
 import numpy
 
 
-class coordsOfComplex:
-    
-    def __init__(self):
-        pass
-    
-        self.coords = numpy.vectorize(self.coordsFunction)
-    
-    def coordsFunction(self,complexnumber):
-        z = numpy.complex(complexnumber)
-        return (numpy.real(z),numpy.imag(z))
 
 
 class commonCircles:
@@ -80,7 +70,7 @@ class commonCircles:
         #Q = numpy.complex(complexnumberQ)
         def theFunction(complexnumberR):
             R = numpy.complex(complexnumberR)
-            center = (numpy.real(R),numpy.imag(R))
+            center = [numpy.real(R),numpy.imag(R)]
             radius = numpy.absolute(R-P)
             return [center,radius]
         vectorized = numpy.vectorize(theFunction)
@@ -109,7 +99,7 @@ class Apollonius:
             Y = P + (y/distance)*(Q-P)
             center = (X+Y)/2
             radius = (k*distance) / (  numpy.absolute(1-k**2)  )
-            return [(numpy.real(center),numpy.imag(center)),radius]
+            return [[numpy.real(center),numpy.imag(center)],radius]
         vectorized = numpy.vectorize(theFunction)
         return vectorized
 

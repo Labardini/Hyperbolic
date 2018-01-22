@@ -9,22 +9,12 @@ Created on Mon Jul 17 17:07:25 2017
 import numpy
 
 
+from Maths.CP_Maths import extended_complex_plane_CP
 
 
 
 
 
-class numpyExtendedComplexPlane:
-    
-    def __init__(self):
-        self.oo = 'oo' # This is the point at infinity in the extended complex plane 
-    
-    def extendedValue(self,complexOroo): ## PERSONAL NOTE: implement exception handling???
-        if complexOroo == self.oo:
-            value = complexOroo
-        else:
-            value = numpy.complex(complexOroo)
-        return value
 
 
 #############################
@@ -41,7 +31,7 @@ class MobiusAssocToMatrix:
         if self.theDet == 0: ##### PERSONAL NOTE: implement a good exception handling
             raise ValueError
             
-        self.oo = numpyExtendedComplexPlane().oo
+        self.oo = extended_complex_plane_CP.numpyExtendedComplexPlane().oo
         
         self.evaluation = numpy.vectorize(self.EvaluationAtConcretePoint)
     
@@ -50,7 +40,7 @@ class MobiusAssocToMatrix:
 
         
     def EvaluationAtConcretePoint(self,z):
-        z = numpyExtendedComplexPlane().extendedValue(z)
+        z = extended_complex_plane_CP.numpyExtendedComplexPlane().extendedValue(z)
         if self.theDet == 0:# NECESSARY? PERSONAL NOTE: implement a good exception handling (somewhere, maybe here it wouldn't be necessary if it is well implemented)
             result = "This is not an invertible matrix."# NECESSARY? PERSONAL NOTE: implement a good exception handling (somewhere, maybe here wouldn't be necessary)
         elif z != self.oo and self.c*z + self.d != 0:
@@ -72,6 +62,11 @@ class MobiusAssocToMatrix:
             CurrentPoint = SingleIteration(CurrentPoint)
         return Orbit
     
+    def Mob_trans_iterable_oo_removed(self,z,n):
+        Orbit = self.Mob_trans_iterable(z,n)
+        reducedOrbit = [x for x in Orbit if x != 'oo']
+        return reducedOrbit
+    
     def fixedPoints(self):
        if self.theDet == 0:# NECESSARY? Perhaps it wouldn't be necessary if a good exception handling were implemented
            fixed_point_set = "This is not an invertible matrix."# NECESSARY?
@@ -91,6 +86,11 @@ class MobiusAssocToMatrix:
        if len(fixed_point_set) == 1:
            fixed_point_set = [fixed_point_set[0],fixed_point_set[0]]
        return fixed_point_set
+   
+    def fixedPoints_oo_removed(self):
+        fixed_point_set = self.fixedPoints()
+        reduced_fixed_point_set = [x for x in fixed_point_set if x != 'oo']
+        return reduced_fixed_point_set
         
     def MobiusTrace(self):
         if self.theDet == 0: # NECESSARY? Perhaps it wouldn't be necessary if a good exception handling were implemented
