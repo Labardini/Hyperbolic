@@ -21,6 +21,8 @@ class MplCanvas(Canvas):
     def __init__(self):
         self.fig = Figure()
         self.axis = self.fig.add_subplot(111,aspect = "equal")
+#        self.axis.set_xlim(-1000,1000)
+#        self.axis.set_ylim(0,1000)
         Canvas.__init__(self, self.fig)
         Canvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         Canvas.updateGeometry(self)
