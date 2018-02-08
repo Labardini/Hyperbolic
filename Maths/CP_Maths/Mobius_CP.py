@@ -10,9 +10,19 @@ import numpy
 
 
 from Maths.CP_Maths import extended_complex_plane_CP
+from Maths.CP_Maths import Steiner_grids_CP
 
 
-
+#### SOME FUNCTIONS IMPORTED FROM Maths.CP_Maths.extended_complex_plane_CP
+oo = extended_complex_plane_CP.numpyExtendedComplexPlane().oo
+isooInArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().isooInArgs
+isooInList = extended_complex_plane_CP.numpyExtendedComplexPlane().isooInList
+extendedValue = extended_complex_plane_CP.numpyExtendedComplexPlane().extendedValue
+areAllDistinctArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().areAllDistinctArgs
+areAllDistinctList = extended_complex_plane_CP.numpyExtendedComplexPlane().areAllDistinctList
+removeooFromArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().removeooFromArgs
+removeooFromList = extended_complex_plane_CP.numpyExtendedComplexPlane().removeooFromList
+####
 
 
 
@@ -55,7 +65,7 @@ class MobiusAssocToMatrix:
     
     def Mob_trans_iterable(self,z,n): ### PERSONAL NOTE: treat with nth power of matrix instead?
         SingleIteration = self.EvaluationAtConcretePoint
-        CurrentPoint = z
+        CurrentPoint = extendedValue(z)
         Orbit = [z]
         for i in range(1,n,1):
             Orbit.append(SingleIteration(CurrentPoint))
@@ -108,16 +118,50 @@ class MobiusAssocToMatrix:
             S = self.fixedPoints
             T = self.MobiusTrace
             if self.c == 0 and self.a == self.d and self.b == 0:
-                TheTypeIs = "This Mobius transformation is the identity. It fixes every point in the Riemann sphere."
+                TheTypeIs = "Idendity"
             elif S[0] == S[1]:
-                TheTypeIs = 'This Mobius transformation is PARABOLIC.'
+                TheTypeIs = 'PARABOLIC'
             elif numpy.imag(T[0]) ==0 and numpy.absolute(numpy.real(T[0]))<2:
-                TheTypeIs = 'This Mobius transformation is ELLIPTIC.'
+                TheTypeIs = 'ELLIPTIC'
             elif numpy.imag(T[0]) == 0 and numpy.absolute(numpy.real(T[0]))>2:
-                TheTypeIs = 'This Mobius transformation is HYPERBOLIC.'
+                TheTypeIs = 'HYPERBOLIC'
             elif numpy.imag(T[0]) !=0:
-                TheTypeIs = 'This Mobius transformation is LOXODROMIC.'
+                TheTypeIs = 'LOXODROMIC'
         return TheTypeIs
+    
+    def standardForm(self): #### PERSONAL NOTE: This needs a good exception handling
+        fixedPointSet = self.fixedPoints()
+        alpha1 = fixedPointSet[0]
+        alpha2 = fixedPointSet[1]
+        if alpha1 == alpha2 and alpha2 != self.oo:
+            ConjugatingMatrix = numpy.matrix([[0,1],[1,-alpha2]])
+        if alpha1 == alpha2 and alpha2 == self.oo:
+            ConjugatingMatrix = numpy.matrix([[1,0],[0,1]])
+        if alpha1 != alpha2 and alpha2 != self.oo:
+            ConjugatingMatrix = numpy.matrix([[1,-alpha1],[1,-alpha2]])
+        if alpha1 != alpha2 and alpha2 == self.oo:
+            ConjugatingMatrix = numpy.matrix([[1,-alpha1],[0,1]])
+        standard_form = ConjugatingMatrix*self.theMatrix*(ConjugatingMatrix.getI())
+        return [standard_form, ConjugatingMatrix]
+        
+    
+    def SteinerConfiguration(self):
+        if self.theDet == 0 or self.isParEllHypLox()=="Identity":
+            pass
+        elif self.isParEllHypLox() in ['ELLIPTIC','HYPERBOLIC','LOXODROMIC']:
+            fixedPointSet = self.fixedPoints()
+            standard_form = standardForm()
+            conjugating = (standardForm()[1]).getI()
+            n = numpy.random.randint(2,101)
+            intervalForCircle = numpy.linspace(0,2*numpy.pi,n)
+            points = numpy.cos(intervalForCircle) + numpy.sin(intervalForCircle)*(1j)
+            a, b, c, d = conjugating[0,0], conjugating[0,1], conjugating[1,0], conjugating[1,1]
+            pointsForCommon = (a*points + b)/(c*points + d)
+            
+            
+            
+            
+            
 
         
     
