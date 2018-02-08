@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jan  6 15:53:06 2018
-
 @author: daniellabardini
 """
 
@@ -20,11 +19,25 @@ from matplotlib.animation import FuncAnimation
 
 import appWindowDesign
 
+from exception_handling import Maybe
+from exception_handling import myInputError
+
 from Maths.CP_Maths import extended_complex_plane_CP
 from Maths.CP_Maths import Steiner_grids_CP
 from Maths.CP_Maths import Mobius_CP
 
-
+#### SOME FUNCTIONS IMPORTED FROM Maths.CP_Maths.extended_complex_plane_CP
+oo = extended_complex_plane_CP.numpyExtendedComplexPlane().oo
+coords = extended_complex_plane_CP.numpyExtendedComplexPlane().coords
+isooInArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().isooInArgs
+isooInList = extended_complex_plane_CP.numpyExtendedComplexPlane().isooInList
+extendedValue = extended_complex_plane_CP.numpyExtendedComplexPlane().extendedValue
+areAllDistinctArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().areAllDistinctArgs
+areAllDistinctList = extended_complex_plane_CP.numpyExtendedComplexPlane().areAllDistinctList
+removeooFromArgs = extended_complex_plane_CP.numpyExtendedComplexPlane().removeooFromArgs
+removeooFromList = extended_complex_plane_CP.numpyExtendedComplexPlane().removeooFromList
+e_circumcenter_and_radius = extended_complex_plane_CP.numpyExtendedComplexPlane().e_circumcenter_and_radius
+####
 
 
 
@@ -34,48 +47,21 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         super(appMainWindow,self).__init__(parent)
         self.setupUi(self)
         
-        
-        
+
+
 ##################
 ##################
 ##### AXES LIMITS
 
         self.CP_absolute_lim = 100
-        self.CP_xlim_left = -self.CP_absolute_lim
-        self.CP_xlim_right = self.CP_absolute_lim
+        self.CP_xlim_left = -self.CP_absolute_lim*1.5
+        self.CP_xlim_right = self.CP_absolute_lim*1.5
         self.CP_ylim_down = -self.CP_absolute_lim
         self.CP_ylim_up = self.CP_absolute_lim
         
         self.mplWidgetIn_pageCP.canvas.axis.set_xlim(self.CP_xlim_left,self.CP_xlim_right)
         self.mplWidgetIn_pageCP.canvas.axis.set_ylim(self.CP_ylim_down,self.CP_ylim_up)
 
-                
-        
-
-
-
-
-
-
-
-
-####################
-####################
-##### IMPORTED FUNCTIONS - beginning
-
-        self.coords = extended_complex_plane_CP.coordsOfComplex().coords ## This is the vectorized version of coordsFunction
-        self.coordsFunction = extended_complex_plane_CP.coordsOfComplex().coordsFunction
-        
-        self.common_circles = Steiner_grids_CP.commonCircles().common_circles
-        self.Apollonius_e_circles1 = Steiner_grids_CP.Apollonius().Apollonius_e_circles1
-        self.Apollonius_e_circles2 = Steiner_grids_CP.Apollonius().Apollonius_e_circles2
-        self.commonCirclesFunction = Steiner_grids_CP.commonCircles().commonCirclesFunction
-        
-        self.MobiusAssocToMatrix = Mobius_CP.MobiusAssocToMatrix ## This is a class, not a function
-
-##### IMPORTED FUNCTIONS - end
-####################
-####################
 
 
 #####
@@ -105,8 +91,7 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         self.pushButtonCPSGApollonius.clicked.connect(self.effectOf_pushButtonCPSGApollonius)
         self.pushButtonCPSGSteiner.clicked.connect(self.effectOf_pushButtonCPSGSteiner)
         self.pushButtonCPMTOrbitsSinglePoint.clicked.connect(self.effectOf_pushButtonCPMTOrbitsSinglePoint) ### PERSONAL NOTE: this effect has not been fully/satisfactorily programmed
-        self.pushButtonCPMTOrbitsRandomCircle.clicked.connect(self.effectOf_pushButtonCPMTOrbitsRandomCircle) ### PERSONAL NOTE: polish this
-        
+        self.pushButtonCPMTOrbitsRandomCircle.clicked.connect(self.effectOf_pushButtonCPMTOrbitsRandomCircle)
 
 
 
@@ -158,39 +143,69 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         self.mplWidgetIn_pageCP.canvas.draw()
         
 
-    def effectOf_pushButtonCPSGCommon(self): #### PERSONAL: should I move the bulk of operations to Steiner_grids_CP.py? 
-        centersAndRadii = self.common_circles(
-                self.lineEditCPSGComplexNumber1.text(),
-                self.lineEditCPSGComplexNumber2.text(),
-                int(self.spinBoxCPSGCommon.cleanText()))
-        theta = numpy.linspace(0,1,101)
-        for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
-            x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
-            y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
-            self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
-        self.mplWidgetIn_pageCP.canvas.draw()
+    def effectOf_pushButtonCPSGCommon(self):
+        #### PERSONAL: should I move the bulk of operations to Steiner_grids_CP.py?
+        #I think doing so would create a mess because there would be more dependencies
+        try:
+            P = extendedValue(self.lineEditCPSGComplexNumber1.text())
+            Q = extendedValue(self.lineEditCPSGComplexNumber2.text())
+            n = int(self.spinBoxCPSGCommon.cleanText())
+            if isooInArgs(P,Q) == False:
+                centersAndRadii = Steiner_grids_CP.commonCircles().common_circlesFunction(
+                        P, Q, n )
+                theta = numpy.linspace(0,1,101)
+                for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
+                    x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
+                    y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
+                    self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
+                self.mplWidgetIn_pageCP.canvas.draw()
+            else:
+                pairsOfPoints = Steiner_grids_CP.commonCircles().common_circlesFunction(
+                        P, Q, n )
+                t = numpy.linspace(-1000,1000,1000)
+                self.mplWidgetIn_pageCP.canvas.axis.plot(self.CP_xlim_right,self.CP_ylim_up,"ob")
+                for triple in pairsOfPoints: ### triple comes in the format [[R.real,R.imag],P], where R and P are (finite) complex numbers. PERSONAL NOTE: This is NOT elegant!!!!!!
+                    x_coord = (triple[1]).real + t*(((triple[0])[0])-(triple[1]).real)
+                    y_coord = (triple[1]).imag + t*(((triple[0])[1])-(triple[1]).imag)
+                    self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
+                self.mplWidgetIn_pageCP.canvas.draw()
+        except: #### Implement a pop-up window???
+            pass
             
     def effectOf_pushButtonCPSGApollonius(self): ## WARNING(?): THE EXACT SAME CODE APPEARS TWICE, EXCEPT FOR importing.Apollonius_e_circles1 AND importing.Apollonius_e_circles2
-        centersAndRadii = self.Apollonius_e_circles1(
-                self.lineEditCPSGComplexNumber1.text(),
-                self.lineEditCPSGComplexNumber2.text(),
-                int(self.spinBoxCPSGCommon.cleanText()))
-        theta = numpy.linspace(0,1,101)
-        for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
-            x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
-            y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
-            self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
-        self.mplWidgetIn_pageCP.canvas.draw()
-        centersAndRadii = self.Apollonius_e_circles2(
-                self.lineEditCPSGComplexNumber1.text(),
-                self.lineEditCPSGComplexNumber2.text(),
-                int(self.spinBoxCPSGCommon.cleanText()))
-        theta = numpy.linspace(0,1,101)
-        for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
-            x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
-            y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
-            self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color="b")
-        self.mplWidgetIn_pageCP.canvas.draw()
+        try:
+            P = extendedValue(self.lineEditCPSGComplexNumber1.text())
+            Q = extendedValue(self.lineEditCPSGComplexNumber2.text())
+            n = int(self.spinBoxCPSGCommon.cleanText())
+            if isooInArgs(P,Q) == False:
+                centersAndRadii = Steiner_grids_CP.Apollonius().Apollonius_e_circles1(
+                        P,Q,n)
+                theta = numpy.linspace(0,1,101)
+                for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
+                    x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
+                    y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
+                    self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color ="b")
+                self.mplWidgetIn_pageCP.canvas.draw()
+                centersAndRadii = Steiner_grids_CP.Apollonius().Apollonius_e_circles2(
+                        self.lineEditCPSGComplexNumber1.text(),
+                        self.lineEditCPSGComplexNumber2.text(),
+                        int(self.spinBoxCPSGCommon.cleanText()))
+                theta = numpy.linspace(0,1,101)
+                for triple in centersAndRadii: ### triple comes in the format [(x,y),r]
+                    x_coord = (triple[0])[0] + (triple[1])*numpy.cos(theta*2*numpy.pi)
+                    y_coord = (triple[0])[1] + (triple[1])*numpy.sin(theta*2*numpy.pi)
+                    self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color="b")
+                self.mplWidgetIn_pageCP.canvas.draw()
+            else:
+                finitePoint = removeooFromList([P,Q])[0]
+                theta = numpy.linspace(0,1,101)
+                for t in range(1,(n)**2+1,n):
+                    x_coord = finitePoint.real + t*numpy.cos(theta*2*numpy.pi)
+                    y_coord = finitePoint.imag + t*numpy.sin(theta*2*numpy.pi)
+                    self.mplWidgetIn_pageCP.canvas.axis.plot(x_coord,y_coord,color="b")
+                self.mplWidgetIn_pageCP.canvas.draw()
+        except:
+            pass
                 
     def effectOf_pushButtonCPSGSteiner(self):
         self.effectOf_pushButtonCPSGCommon()
@@ -210,63 +225,60 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         
 #############################################
 ##############
-############## I still have to figure out how to plot an animation of the orbit of a point        
+############## Something strange happens when one clicks on "Clear Canvas" and then
+############## tries to plot the orbit of a new point   
     def effectOf_pushButtonCPMTOrbitsSinglePoint(self):
-        MobiusTrans = self.MobiusAssocToMatrix(
-                self.lineEditCPMTOrbitsComplexNumberalpha.text(),
-                self.lineEditCPMTOrbitsComplexNumberbeta.text(),
-                self.lineEditCPMTOrbitsComplexNumbergamma.text(),
-                self.lineEditCPMTOrbitsComplexNumberdelta.text())
-        z_0 = numpy.complex(self.lineEditCPMTOrbitsComplexNumberz_0.text())
-        numberOfPointsInOrbit = int(self.spinBoxCPMTOrbits.cleanText())
-        Orbit = MobiusTrans.Mob_trans_iterable(z_0,numberOfPointsInOrbit)
-        pointsForPlot = self.coords(Orbit)
-        
-        for k in range(0,numberOfPointsInOrbit,1):
-            self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[k],(pointsForPlot[1])[k],'ob')
-        line, = self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[0],(pointsForPlot[1])[0],marker='o',color='r')
-
-        def update(i):
-            # Update the line and the axes (with a new xlabel). Return a tuple of
-            # "artists" that have to be redrawn for this frame.
-            line.set_xdata((pointsForPlot[0])[i])
-            line.set_ydata((pointsForPlot[1])[i])
-            return line, 
-#        x = numpy.arange(0, 20, 0.1)
-#        self.mplWidgetIn_pageCP.canvas.axis.scatter(x, x + numpy.random.normal(0, 3.0, len(x)))
-#        line, = self.mplWidgetIn_pageCP.canvas.axis.plot(x, x - 5, 'r-', linewidth=2)
-#
-#        def update(i):
-#            # Update the line and the axes (with a new xlabel). Return a tuple of
-#            # "artists" that have to be redrawn for this frame.
-#            line.set_ydata(x - 5 + i)
-#            return line, 
-                
-#        initialPlot, = self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[0],(pointsForPlot[1])[0],'or', animated = True)
-#        
-##        def init():
-##            initialPlot.set_data([],[])
-##            return initialPlot,
-#        
-#        def animate(k):
-#            x = (pointsForPlot[0])[k]
-#            y = (pointsForPlot[1])[k]
-#            print(x,y)
-#            initialPlot.set_data(x,y)
-#            return initialPlot,
-#        
-        anim = FuncAnimation(self.mplWidgetIn_pageCP.canvas.fig, update,
-                             #init_func=init,
-                             frames=numberOfPointsInOrbit,interval=500,blit=True)
-        self.mplWidgetIn_pageCP.canvas.draw()
-##        for k in range(0,numberOfPointsInOrbit,1):
-##            self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[k],(pointsForPlot[1])[k],'ob')
-##            self.mplWidgetIn_pageCP.canvas.draw()
-##            
-##        
-#                
-#        
-#      
+        try:
+            MobiusTrans = Mobius_CP.MobiusAssocToMatrix(
+                    self.lineEditCPMTOrbitsComplexNumberalpha.text(),
+                    self.lineEditCPMTOrbitsComplexNumberbeta.text(),
+                    self.lineEditCPMTOrbitsComplexNumbergamma.text(),
+                    self.lineEditCPMTOrbitsComplexNumberdelta.text())
+            z_0 = extendedValue(self.lineEditCPMTOrbitsComplexNumberz_0.text())
+            numberOfPointsInOrbit = int(self.spinBoxCPMTOrbits.cleanText())
+            Orbit = MobiusTrans.Mob_trans_iterable(z_0,numberOfPointsInOrbit)
+            OrbitForPlot = [self.CP_xlim_right+self.CP_ylim_up*(1j) if x==oo else x for x in Orbit]
+            pointsForPlot = coords(OrbitForPlot)
+            for k in range(0,numberOfPointsInOrbit,1):
+                self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[k],(pointsForPlot[1])[k],'ob')
+            line, = self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[0],(pointsForPlot[1])[0],marker='o',color='r')
+    
+            def update(i):
+                # Update the line and the axes (with a new xlabel). Return a tuple of
+                # "artists" that have to be redrawn for this frame.
+                line.set_xdata((pointsForPlot[0])[i])
+                line.set_ydata((pointsForPlot[1])[i])
+                return line, 
+    #        x = numpy.arange(0, 20, 0.1)
+    #        self.mplWidgetIn_pageCP.canvas.axis.scatter(x, x + numpy.random.normal(0, 3.0, len(x)))
+    #        line, = self.mplWidgetIn_pageCP.canvas.axis.plot(x, x - 5, 'r-', linewidth=2)
+    #
+    #        def update(i):
+    #            # Update the line and the axes (with a new xlabel). Return a tuple of
+    #            # "artists" that have to be redrawn for this frame.
+    #            line.set_ydata(x - 5 + i)
+    #            return line, 
+                    
+    #        initialPlot, = self.mplWidgetIn_pageCP.canvas.axis.plot((pointsForPlot[0])[0],(pointsForPlot[1])[0],'or', animated = True)
+    #        
+    ##        def init():
+    ##            initialPlot.set_data([],[])
+    ##            return initialPlot,
+    #        
+    #        def animate(k):
+    #            x = (pointsForPlot[0])[k]
+    #            y = (pointsForPlot[1])[k]
+    #            print(x,y)
+    #            initialPlot.set_data(x,y)
+    #            return initialPlot,
+    #        
+            anim = FuncAnimation(self.mplWidgetIn_pageCP.canvas.fig, update,
+                                 #init_func=init,
+                                 frames=numberOfPointsInOrbit,interval=500,blit=True)
+            self.mplWidgetIn_pageCP.canvas.draw()
+        except:
+            pass
+   
 
 ##############
 ############## 
@@ -274,7 +286,7 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
  
         
     def effectOf_pushButtonCPMTOrbitsRandomCircle(self):
-        MobiusTrans = self.MobiusAssocToMatrix(
+        MobiusTrans = Mobius_CP.MobiusAssocToMatrix(
                 self.lineEditCPMTOrbitsComplexNumberalpha.text(),
                 self.lineEditCPMTOrbitsComplexNumberbeta.text(),
                 self.lineEditCPMTOrbitsComplexNumbergamma.text(),
@@ -286,39 +298,31 @@ class appMainWindow(QtWidgets.QDialog, appWindowDesign.Ui_MainWindow):
         OrbitP = MobiusTrans.Mob_trans_iterable(P,numberOfPointsInOrbit)
         OrbitQ = MobiusTrans.Mob_trans_iterable(Q,numberOfPointsInOrbit)
         OrbitR = MobiusTrans.Mob_trans_iterable(R,numberOfPointsInOrbit)
+        print("step1")
+        centersAndRadii = [e_circumcenter_and_radius(OrbitP[k],OrbitQ[k],OrbitR[k]) for k in range(0,numberOfPointsInOrbit,1)]
+        print("step2")
         
-        centersAndRadii = [(self.commonCirclesFunction(OrbitP[k],OrbitQ[k]))(OrbitR[k]) for k in range(0,numberOfPointsInOrbit,1)]
         
         t = numpy.linspace(0, 2*numpy.pi,500)
-        
-        print(MobiusTrans.fixedPoints()[0])
-        print(MobiusTrans.fixedPoints()[1])
-        print(self.coordsFunction(MobiusTrans.fixedPoints()[0]))
-        print(self.coordsFunction(MobiusTrans.fixedPoints()[1]))
-        
-        
-#        self.mplWidgetIn_pageCP.canvas.axis.plot(
-#                self.coordsFunction(MobiusTrans.fixedPoints()[0])[0],
-#                self.coordsFunction(MobiusTrans.fixedPoints()[0])[1],'ro')        
-#        self.mplWidgetIn_pageCP.canvas.axis.plot(
-#                self.coordsFunction(MobiusTrans.fixedPoints()[1])[0],
-#                self.coordsFunction(MobiusTrans.fixedPoints()[1])[1],'ro')
-#        
+        print("step3")
         for k in range(0,numberOfPointsInOrbit,1):
             self.mplWidgetIn_pageCP.canvas.axis.plot(
                 ((centersAndRadii[k])[0])[0] + (centersAndRadii[k])[1]*numpy.cos(t),
                 ((centersAndRadii[k])[0])[1] + (centersAndRadii[k])[1]*numpy.sin(t),'b-')
+            print(k)
             
+        
+        
+        
         line, = self.mplWidgetIn_pageCP.canvas.axis.plot(
                 ((centersAndRadii[0])[0])[0] + (centersAndRadii[0])[1]*numpy.cos(t),
                 ((centersAndRadii[0])[0])[1] + (centersAndRadii[0])[1]*numpy.sin(t),
-                'r-', linewidth=2)       
+                'r-', linewidth=3)       
         def update(k):
             # Update the line and the axes (with a new xlabel). Return a tuple of
             # "artists" that have to be redrawn for this frame.
             line.set_xdata(((centersAndRadii[k])[0])[0] + (centersAndRadii[k])[1]*numpy.cos(t))
             line.set_ydata(((centersAndRadii[k])[0])[1] + (centersAndRadii[k])[1]*numpy.sin(t))
-            line.set_linewidth(3)
             return line,
 
         anim = FuncAnimation(self.mplWidgetIn_pageCP.canvas.fig, update,
@@ -351,4 +355,3 @@ app.exec_()
 #    form = appMainWindow()
 #    form.show()
 #    app.exec_()
-
