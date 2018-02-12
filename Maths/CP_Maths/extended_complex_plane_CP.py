@@ -101,23 +101,23 @@ class numpyExtendedComplexPlane:
     def e_circumcenter_and_radius(self,complexP,complexQ,complexR):
         #### If the points are not all distinct, an exception is raised
         #### by areCollinear and areAllDistinct
+        #### PERSONAL NOTE: change xi, yi, in order to make reference to P, Q and R
         if self.typeOfCircleInExtendedPlane(complexP,complexQ,complexR) == "circle":
             P = numpy.complex(complexP) 
             Q = numpy.complex(complexQ)
             R = numpy.complex(complexR) 
-            realOfP = numpy.real(P)
-            imOfP = numpy.imag(P)
-            PointP = sympy.geometry.Point(realOfP,imOfP)
-            realOfQ = numpy.real(Q)
-            imOfQ = numpy.imag(Q)
-            PointQ = sympy.geometry.Point(realOfQ,imOfQ)
-            realOfR = numpy.real(R)
-            imOfR = numpy.imag(R)
-            PointR = sympy.geometry.Point(realOfR,imOfR)
-            cent = sympy.geometry.Circle(PointP,PointQ,PointR).center
-            rad = sympy.geometry.Circle(PointP,PointQ,PointR).hradius
+            x1 = numpy.real(P)
+            y1 = numpy.imag(P)
+            x2 = numpy.real(Q)
+            y2 = numpy.imag(Q)
+            x3 = numpy.real(R)
+            y3 = numpy.imag(R)
+            D = 2*( x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2))
+            center_x_coord = ((x1**2 + y1**2)*(y2 - y3) + (x2**2 + y2**2)*(y3 - y1) + (x3**2 + y3**2)*(y1 - y2)) / D
+            center_y_coord = ((x1**2 + y1**2)*(x3 - x2) + (x2**2 + y2**2)*(x1 - x3) + (x3**2 + y3**2)*(x2 - x1)) / D
+            radius = numpy.sqrt((x1-center_x_coord)**2+(y1-center_y_coord)**2)
         else:
             raise myInputError(str(complexP)+","+str(complexQ)+","+str(complexR),"These points are collinear")
-        return [[cent.x,cent.y],rad]
+        return [[center_x_coord,center_y_coord],radius]
     
     

@@ -91,6 +91,8 @@ class commonCircles:
             
             
     def common_circlesFunction(self,complexnumberP,complexnumberQ,n):
+        # The case when isooInArgs(P,Q) == True may no longer be necessary.
+        # I think I should delete it and perhaps add isooInArgs(P,Q)==False in the try statement.
         P = extendedValue(complexnumberP)
         Q = extendedValue(complexnumberQ)
         try:
@@ -143,7 +145,39 @@ class Apollonius:
         return theFunction(numpySecondInterval)
         
         
-
+class loxodromes:
+    
+    def __init__(self):
+        pass
+    
+    def loxCurve(self,complexP,complexQ,theta,n):
+        P = extendedValue(complexP)
+        Q = extendedValue(complexQ)
+        try:
+            areAllDistinctArgs(P,Q)
+        except myInputError:
+            raise myInputError(str(P)+","+str(Q),"The points must be distinct")
+        coordList = []
+        complexZ = 2*(numpy.cos(theta)+(numpy.sin(theta)*(1j)))
+        t = numpy.linspace(0,25,1000)
+        if isooInArgs(P,Q) == True:
+            for k in range(0,n,1):
+                rotation = numpy.cos(k*2*numpy.pi/n)+(numpy.sin(k*2*numpy.pi/n)*(1j))
+                complexW = ((complexZ)**t)*rotation
+                x_coord = (complexW).real
+                y_coord = (complexW).imag
+                coordList.append([x_coord,y_coord])
+        else:
+            for k in range(0,n,1):
+                rotation = numpy.cos(k*2*numpy.pi/n)+(numpy.sin(k*2*numpy.pi/n)*(1j))
+                complexW = ((complexZ)**t)*rotation
+                x_coord = ((Q*complexW + P)/(complexW + 1)).real
+                y_coord = ((Q*complexW + P)/(complexW + 1)).imag
+                coordList.append([x_coord,y_coord])
+        return coordList
+        
+            
+            
         
         
 

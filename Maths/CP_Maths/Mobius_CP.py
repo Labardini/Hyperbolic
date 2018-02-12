@@ -9,6 +9,8 @@ Created on Mon Jul 17 17:07:25 2017
 import numpy
 
 
+
+from exception_handling import myInputError
 from Maths.CP_Maths import extended_complex_plane_CP
 from Maths.CP_Maths import Steiner_grids_CP
 
@@ -39,10 +41,9 @@ class MobiusAssocToMatrix:
         self.theMatrix = numpy.matrix([[self.a,self.b],[self.c,self.d]])
         self.theDet = self.a*self.d - self.b*self.c
         if self.theDet == 0: ##### PERSONAL NOTE: implement a good exception handling
-            raise ValueError
+            raise myInputError(str(self.a)+','+str(self.b)+','+str(self.c)+','+str(self.d),"The matrix must be invertible")
             
         self.oo = extended_complex_plane_CP.numpyExtendedComplexPlane().oo
-        
         self.evaluation = numpy.vectorize(self.EvaluationAtConcretePoint)
     
 
