@@ -101,7 +101,7 @@ class numpyExtendedComplexPlane:
     def e_circumcenter_and_radius(self,complexP,complexQ,complexR):
         #### If the points are not all distinct, an exception is raised
         #### by areCollinear and areAllDistinct
-        #### PERSONAL NOTE: change xi, yi, in order to make reference to P, Q and R
+        #### PERSONAL NOTE: change xi, yi, in order to make reference to P, Q and R --tthe code more will be more readable
         if self.typeOfCircleInExtendedPlane(complexP,complexQ,complexR) == "circle":
             P = numpy.complex(complexP) 
             Q = numpy.complex(complexQ)
@@ -120,4 +120,19 @@ class numpyExtendedComplexPlane:
             raise myInputError(str(complexP)+","+str(complexQ)+","+str(complexR),"These points are collinear")
         return [[center_x_coord,center_y_coord],radius]
     
+    
+        
+    def myNumpyCosecant(self,radian):
+        theta = numpy.real(radian)
+        result = 1 / (numpy.sin(theta))
+        return result
+    
+    
+    
+    def myNumpyCotangent(self,radian):
+        theta = numpy.real(radian)
+        result = 1 / (numpy.tan(theta))
+        return result
+    
+
     
