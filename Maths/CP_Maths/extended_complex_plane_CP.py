@@ -120,7 +120,46 @@ class numpyExtendedComplexPlane:
             raise myInputError(str(complexP)+","+str(complexQ)+","+str(complexR),"These points are collinear")
         return [[center_x_coord,center_y_coord],radius]
     
+#### THE FOLLOWING FUNCTION FINDS THE COORDINATES OF THE INTERSECTION POINTS
+#### OF TWO CIRCLES IF WE ARE GIVEN THE LATTERS' EUCLIDEAN CENTERS AND RADII
     
+    def intersection_of_e_circles(self,center1,radius1,center2,radius2):
+        x0 = center1[0]
+        y0 = center1[1]
+        x1 = center2[0]
+        y1 = center2[1]
+        r0 = radius1
+        r1 = radius2
+        if x0 != x1:
+            k0 = (   r0**2-r1**2+x1**2-x0**2+y1**2-y0**2   )   /   (   (2*x1)-(2*x0)   )
+            k1 = (   y0-y1   )   /   (   x1-x0   )
+            a = k1**2+1
+            b = ( 2*k1*(k0-x1) ) - (2*y1)
+            c = ( (k0-x1)**2 ) + ( y1**2 ) - ( r1**2 )
+            ysolplus = (   -b + numpy.sqrt( (b**2)-4*a*c )   )   /   (   2*a   )
+            xsolplus = (k1*ysolplus) + k0
+            ysolminus = (   -b - numpy.sqrt( (b**2)-4*a*c )   )   /   (   2*a   )
+            xsolminus = (k1*ysolminus) + k0
+            xsolpos = max(xsolplus,xsolminus)
+            xsolneg = min(xsolplus,xsolminus)
+            if xsolpos == xsolplus:
+                ysolpos = ysolplus
+                ysolneg = ysolminus
+            if xsolpos != xsolplus:
+                ysolpos = ysolminus
+                ysolneg = ysolplus
+            sol = [[xsolpos,ysolpos],[xsolneg,ysolneg]]
+        if x0 == x1:
+            ysol = (   r0**2-r1**2+x1**2-x0**2+y1**2-y0**2   )   /   ( 2*y1-2*y0 )
+            a = 1
+            b = -2*x1
+            c = x1**2 + ysol**2 - 2*ysol*y1 + y1**2 - r1**2
+            xsolpos = (   -b + numpy.sqrt( (b**2)-4*a*c )   )   /   (   2*a   )
+            xsolneg = (   -b - numpy.sqrt( (b**2)-4*a*c )   )   /   (   2*a   )
+            sol = [[xsolpos,ysol],[xsolneg,ysol]]
+        return sol
+    ####
+    ####    
         
     def myNumpyCosecant(self,radian):
         theta = numpy.real(radian)
@@ -134,5 +173,10 @@ class numpyExtendedComplexPlane:
         result = 1 / (numpy.tan(theta))
         return result
     
-
+    def myarg0To2Pi(self,complexnumber):
+        if numpy.angle(complexnumber) >= 0:
+            result = numpy.angle(complexnumber)
+        else:
+            result = numpy.angle(complexnumber)+2*numpy.pi
+        return result
     

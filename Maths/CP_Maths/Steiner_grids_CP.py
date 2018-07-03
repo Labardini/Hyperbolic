@@ -158,22 +158,25 @@ class loxodromes:
         except myInputError:
             raise myInputError(str(P)+","+str(Q),"The points must be distinct")
         coordList = []
-        complexZ = 2*(numpy.cos(theta)+(numpy.sin(theta)*(1j)))
-        t = numpy.linspace(0,25,1000)
+        complexZ = (1.1)*(numpy.cos(theta)+(numpy.sin(theta)*(1j)))
+        t = numpy.linspace(0,25,10000)
         if isooInArgs(P,Q) == True:
             for k in range(0,n,1):
                 rotation = numpy.cos(k*2*numpy.pi/n)+(numpy.sin(k*2*numpy.pi/n)*(1j))
-                complexW = ((complexZ)**t)*rotation
+                complexW = ((complexZ)**(t**2))*rotation
                 x_coord = (complexW).real
                 y_coord = (complexW).imag
                 coordList.append([x_coord,y_coord])
         else:
             for k in range(0,n,1):
                 rotation = numpy.cos(k*2*numpy.pi/n)+(numpy.sin(k*2*numpy.pi/n)*(1j))
-                complexW = ((complexZ)**t)*rotation
+                complexW = ((complexZ)**(t**2))*rotation
                 x_coord = ((Q*complexW + P)/(complexW + 1)).real
                 y_coord = ((Q*complexW + P)/(complexW + 1)).imag
                 coordList.append([x_coord,y_coord])
+                x_coord2 = ((P*complexW + Q)/(complexW + 1)).real
+                y_coord2 = ((P*complexW + Q)/(complexW + 1)).imag
+                coordList.append([x_coord2,y_coord2])
         return coordList
         
             
